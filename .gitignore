@@ -3,4 +3,5 @@ __pycache__/
 *.pyo
 .env
 .yml
+.md
 app_copy.py
