@@ -1,26 +1,26 @@
+import streamlit as st
+from pathlib import Path
 
-import os
-from flask import Flask, render_template, request
-from dotenv import load_dotenv  # Para cargar el .env
+# Configuración inicial de la página
+st.set_page_config(
+    page_title="Reproductor de Video",
+    layout="wide"
+)
 
-# Cargar variables desde el archivo .env
-load_dotenv()
+# Título
+st.title("Reproductor de Video Local")
 
-# Configuración del token (si lo necesitas para otras operaciones)
-HF_TOKEN = os.getenv("HF_TOKEN")
+# Ruta del video local
+video_path = Path("static/nightwaves.mp4")
 
-# Configuración de la aplicación Flask
-app = Flask(__name__)
+# Verificar si el archivo existe
+if video_path.exists():
+    with open(video_path, "rb") as video_file:
+        video_bytes = video_file.read()
+        st.video(video_bytes, format="video/mp4")
+else:
+    st.error("El archivo de video no se encontró. Por favor, verifica la ruta.")
 
-@app.route('/')
-def home():
-    video_url = request.args.get('url', None)
-    return render_template('index.html', video_url=video_url)
-
-if __name__ == '__main__':
-    # Usa el puerto proporcionado por Hugging Face o un puerto por defecto
-    port = int(os.environ.get('PORT', 7860))
-    app.run(debug=True, host='0.0.0.0', port=port)
 
 '''import os
 from flask import Flask, render_template, request
