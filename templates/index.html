@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reproductor de Video</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        #sound-button {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.7);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #sound-button:focus {
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+    <video autoplay muted loop playsinline id="video-player">
+        {% if video_url %}
+            <source src="{{ video_url }}" type="video/mp4">
+        {% else %}
+            <source src="{{ url_for('static', filename='nightwaves.mp4') }}" type="video/mp4">
+        {% endif %}
+        Tu navegador no soporta el elemento de video.
+    </video>
+    <button id="sound-button">Activar Sonido</button>
+
+    <script>
+        const video = document.getElementById('video-player');
+        const soundButton = document.getElementById('sound-button');
+
+        // Alternar sonido al hacer clic
+        soundButton.addEventListener('click', () => {
+            if (video.muted) {
+                video.muted = false; // Activar sonido
+                soundButton.textContent = 'Desactivar Sonido'; // Cambiar texto del botón
+            } else {
+                video.muted = true; // Silenciar
+                soundButton.textContent = 'Activar Sonido'; // Cambiar texto del botón
+            }
+        });
+    </script>
+</body>
+</html>
